@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    width: 100vw;
+}
+
+
+header nav{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    background-color: lightblue;
+    padding-left: 30px;
+}
+
+header nav span{
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+
+body main{
+    display: flex;
+}
+
+body main .formularios{
+    flex: 2;
+    background-color: red;
+    padding-left: 30px;
+}
+
+body main .mapa{
+    flex: 4;
+    background-color: blue;
+}
+
+
+.formularios div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.formularios .botones{
+    display: flex;
+    flex-direction: row;
+}
