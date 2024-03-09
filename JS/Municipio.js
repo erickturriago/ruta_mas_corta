@@ -1,9 +1,10 @@
 class Municipio {
-    constructor(nombre, latitud, longitud) {
+    constructor(id, nombre, latitud, longitud, vecinos) {
+        this.id = id;
         this.nombre = nombre;
         this.latitud = latitud;
         this.longitud = longitud;
-        console.log(`Municipio creado: ${this.nombre}, Latitud: ${this.latitud}, Longitud: ${this.longitud}`);
+        this.vecinos = vecinos;
     }
     //Getters
     getLongitud() {
@@ -12,8 +13,11 @@ class Municipio {
     getLatitud() {
         return this.latitud;
     }
-    // Método para agregar un vecino al municipio
-    agregarVecino(municipio) {
-        this.vecinos.push(municipio);
+    setVecinos(vecinos) {
+        this.vecinos = vecinos;
     }
+    getVecinos() {
+        return this.vecinos;
+    }
+    
 }
