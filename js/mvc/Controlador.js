@@ -10,7 +10,7 @@ class Controlador {
     }
 
     cargarTodosMunicipios(input){
-        const municipios = this.modelo.getTodosMunicipios()
+        const municipios = this.modelo.getTodosMunicipiosSinSeleccionado()
         this.vista.mostrarMunicipios(municipios,input)
     }
 
@@ -23,18 +23,23 @@ class Controlador {
     }
 
     busquedaAStar(origen,destino){
-        this.pintarTodasLineas();
         console.log(origen)
         console.log(destino)
         const nodosRutaCorta = this.modelo.busquedaAStar(origen,destino)
         console.log(nodosRutaCorta)
         this.vista.mostrarNodosAStar(nodosRutaCorta)
-        this.vista.agregarMarcadores(nodosRutaCorta)
-        this.vista.agregarLineas(nodosRutaCorta)
+        this.vista.agregarMarcadoresRutaCorta(nodosRutaCorta)
+        this.pintarTodasLineas(nodosRutaCorta);
+        this.vista.agregarLineasRutaCorta(nodosRutaCorta)
+        
     }
 
-    pintarTodasLineas(){
+    busquedaDijkstra(origen,destino){
+        const nodosRutaCorta = this.modelo.busquedaDijkstra(origen,destino)
+    }
+
+    pintarTodasLineas(nodosRutaCorta){
         const municipios = this.modelo.getTodosMunicipios()
-        this.vista.pintarTodasLineas(municipios)
+        this.vista.pintarTodasLineas(municipios,nodosRutaCorta)
     }
 }

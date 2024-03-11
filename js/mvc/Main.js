@@ -109,7 +109,8 @@ btnCalcular.addEventListener('click',(event)=>{
     if(inputOrigen.value.length >=3 && inputDestino.value.length>=3){
         let munOrigen = inputOrigen.value
         let munDestino = inputDestino.value
-        controller.busquedaAStar(munOrigen,munDestino)
+        // controller.busquedaAStar(munOrigen,munDestino)
+        controller.busquedaDijkstra(munOrigen,munDestino)
     }
     else{
         alert("Debe seleccionar dos municipios")

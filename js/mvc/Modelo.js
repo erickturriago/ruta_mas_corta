@@ -29,33 +29,33 @@ class Modelo {
 
             // Iterar sobre los vecinos del municipio actual para encontrar el más cercano
             munActual.getVecinos().forEach((municipioVecino)=>{
-                const vecino = this.getMunicipioPorId(municipioVecino);
-                
-                if(!rutaCorta.includes(vecino)){
-                    distanciaEntreNodos = this.grafo.getDistance(munActual, vecino);
+                console.log(`Cantidad vecinos nodo: ${munActual.getNombre() } ${munActual.getVecinos().length}}`)
+                if(!rutaCorta.includes(municipioVecino)){
+                    distanciaEntreNodos = this.grafo.getDistance(munActual, municipioVecino);
                     let distanciaVecinoADestino=0
-                    if(vecino!=munDestino){
-                        distanciaVecinoADestino = this.grafo.getDistance(vecino,munDestino)
+
+                    if(municipioVecino!=munDestino){
+                        distanciaVecinoADestino = this.grafo.getDistance(municipioVecino,munDestino)
                     }
                     const distancia = distanciaAcumulada + distanciaEntreNodos + distanciaVecinoADestino
 
                     console.log('------------------------------------------------------')
-                    console.log("Mun seleccionados "+JSON.stringify(rutaCorta))
+                    // console.log("Mun seleccionados "+JSON.stringify(rutaCorta))
                     console.log("Distancia acumulada: "+distanciaAcumulada)
-                    console.log(`Distancia entre ${munActual.getNombre()} y ${vecino.getNombre()} : ${distanciaEntreNodos}`)
-                    console.log(`Distancia entre ${vecino.getNombre()} y ${munDestino.getNombre()}: ${distanciaVecinoADestino}`)
+                    console.log(`Distancia entre ${munActual.getNombre()} y ${municipioVecino.getNombre()} : ${distanciaEntreNodos}`)
+                    console.log(`Distancia entre ${municipioVecino.getNombre()} y ${munDestino.getNombre()}: ${distanciaVecinoADestino}`)
                     console.log(`Distancia total: ${distancia}`)
                     console.log('------------------------------------------------------')
                     
                     // Actualizar la distancia mínima y el vecino más cercano si se encuentra una distancia menor
                     if (distancia < distanciaMinima) {
                         distanciaMinima = distancia;
-                        vecinoMasCercano = vecino;
+                        vecinoMasCercano = municipioVecino;
                     }
                 }
             })
             distanciaAcumulada += distanciaEntreNodos;
-            console.log("Vecino más cercano : "+JSON.stringify(vecinoMasCercano))
+            console.log("Vecino más cercano : "+JSON.stringify(vecinoMasCercano.getNombre()))
             munActual=vecinoMasCercano;
         }
         rutaCorta.push(munDestino)
@@ -63,12 +63,30 @@ class Modelo {
         return rutaCorta
     }
 
+    nodoPesoMenor(nodo){
+        let vecinos = nodo.getVecinos();
+        let distancia = Infinity
+        let nodoSeleccionado = null
+        vecinos.forEach((vecino)=>{
+            let distanciaEntreNodos = this.grafo.getDistance(nodo,vecino)
+            if(distanciaEntreNodos<distancia){
+                distancia=distanciaEntreNodos
+                nodoSeleccionado=vecino
+            }
+        })
+        nodoSeleccionado
+    };
+
     //Algoritmo Dijkstra
     busquedaDijkstra(origen, destino) {
-        
+        return "dijkstra"
     }
 
     getTodosMunicipios(){
+        return this.grafo.getNodos();
+    }
+
+    getTodosMunicipiosSinSeleccionado(){
         const municipiosFiltrados = this.grafo.getNodos().filter(municipio => this.munDestino != municipio.getId() && this.munOrigen!=municipio.getId());
         return municipiosFiltrados
     }

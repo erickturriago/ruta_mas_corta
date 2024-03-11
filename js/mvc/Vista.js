@@ -11,7 +11,9 @@ class Vista {
         this.mapa;
         this.initMap()
         this.marcadores = []
-        this.lineasMapa = []
+        this.caminoRutaCorta = null
+        this.listaPaths = []
+        this.isGrafoPintado = false
     }
 
     ocultarMunicipios(){
@@ -78,23 +80,21 @@ class Vista {
         })
     }
 
-    agregarLineas(listaNodos){
+    async agregarLineasRutaCorta(listaNodos){
 
-        console.log(this.lineasMapa)
+        console.log(this.lineasRutaCorta)
 
-        for (let i = 0; i < this.lineasMapa.length; i++) {
-            this.lineasMapa[i].setMap(null);
+        if(this.caminoRutaCorta){
+            this.caminoRutaCorta.setMap(null)
         }
 
         let path = []
-
         listaNodos.forEach((nodo)=>{
             path.push({
                 lat:nodo.getLatitud(),
                 lng:nodo.getLongitud()
             })
         })
-
         const flightPath = new google.maps.Polyline({
             path: path,
             geodesic: true,
@@ -103,43 +103,65 @@ class Vista {
             strokeWeight: 2,
         });
         flightPath.setMap(this.mapa);
-        this.lineasMapa.push(flightPath)
-        
+        this.caminoRutaCorta = flightPath;
     }
 
-    pintarTodasLineas(listaNodos){
-        let path = []
-        listaNodos.forEach((nodo)=>{
-            nodo.getVecinos().forEach((vecino)=>{
-                path.push({
-                    lat:nodo.getLatitud(),
-                    lng:nodo.getLongitud()
-                })
-
-                path.push({
-                    lat:vecino.getLatitud(),
-                    lng:vecino.getLongitud()
-                })
-            })
+    async pintarTodasLineas(listaNodos,nodosRutaCorta){
+        for (let i = 0; i < this.marcadores.length; i++) {
+            this.marcadores[i].setMap(null);
+        }
+        this.listaPaths.forEach((path)=>{
+            path.setMap(null)
         })
+        const { AdvancedMarkerView} = await google.maps.importLibrary("marker");
+        if(!this.isGrafoPintado){
+            let path = []
+            let nodosVisitados = []
+            listaNodos.forEach((nodo)=>{
+                nodo.getVecinos().forEach((vecino)=>{
+                    // console.log(`Trabajando con: ${nodo.getNombre()} ${vecino.getNombre()}`)
+                    if((nodosRutaCorta.includes(nodo) && nodosRutaCorta.includes(vecino) && Math.abs(nodosRutaCorta.indexOf(nodo)-nodosRutaCorta.indexOf(vecino))==1)){
+                        console.log('-----------------------------------------')
+                        console.log(`Evitando linea: ${nodo.getNombre()} ${vecino.getNombre()}`)
+                        console.log('-----------------------------------------')
+                    }
+                    else{
+                        console.log(`Agregando linea: ${nodo.getNombre()} ${vecino.getNombre()}`)
+                        path.push({lat:nodo.getLatitud(),lng:nodo.getLongitud()})
+                        path.push({lat:vecino.getLatitud(),lng:vecino.getLongitud()})
 
-        const flightPath = new google.maps.Polyline({
-            path: path,
-            geodesic: true,
-            strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-        });
-        flightPath.setMap(this.mapa);
+                        const flightPath = new google.maps.Polyline({
+                            path: path,
+                            geodesic: true,
+                            strokeColor: "#40b4f7",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2,
+                        });
+                        flightPath.setMap(this.mapa);
+                        this.listaPaths.push(flightPath)
+                        path=[]
+                    }
+                })
+
+                const position = { lat:  nodo.getLatitud(), lng: nodo.getLongitud()};
+                const marker = new AdvancedMarkerView({
+                    position: position,
+                    title: nodo.getNombre(),
+                });
+                this.marcadores.push(marker)
+                marker.setMap(this.mapa);
+
+            })
+            // console.log(path)
+            // this.lineasGrafo=flightPath;
+        }
     }
 
-    async agregarMarcadores(listaNodos){
+    async agregarMarcadoresRutaCorta(listaNodos){
         // console.log(this.marcadores)
         for (let i = 0; i < this.marcadores.length; i++) {
             this.marcadores[i].setMap(null);
         }
-
-
         // this.mapa.setMap(null)
         const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
 
@@ -149,23 +171,22 @@ class Vista {
                 position: position,
                 title: nodo.getNombre(),
             });
-            marker.setMap(this.mapa);
-            this.marcadores.push(marker)
+            // marker.setMap(this.mapa);
+            // this.marcadores.push(marker)
         })
     }
 
     async initMap() {
         // The location of Uluru
       //   4.711044598083734, -74.07305123559138 -> Bogota
-        const position = { lat:  4.711044598083734, lng: -74.07305123559138 };
+        const position = { lat:  4.211044598083734, lng: -74.07305123559138 };
         // Request needed libraries.
         //@ts-ignore
         const { Map } = await google.maps.importLibrary("maps");
-        const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
       
         // The map, centered at Uluru
         this.mapa = new Map(document.getElementById("map"), {
-          zoom: 6,
+          zoom: 6.7,
           center: position,
           mapId: "DEMO_MAP_ID",
         });

@@ -2,27 +2,27 @@ class Grafo {
     constructor() {
         this.nodos = []; 
         this.agregarNodo();
-        this.vecinos = [
-           {'1': [2, 3]},
-           {'2': [1, 3, 4]},
-           {'3': [1, 2, 4, 5, 6]},
-           {'4': [2, 3, 5, 6, 8]},
-           {'5': [3, 4, 6, 7]},
-           {'6': [4, 5, 7, 8, 9]},
-           {'7': [5, 6, 9, 10, 11]},
-           {'8': [4, 6, 9, 12, 16]},
-           {'9': [6, 7, 8, 10, 12, 13, 15, 16]},
-           {'10': [7, 9, 11, 12, 13, 14, 15]},
-           {'11': [7, 10, 13, 14]},
-           {'12': [8, 9, 10, 13, 15, 16, 17]},
-           {'13': [9, 10, 11, 12, 14, 15, 20]},
-           {'14': [10, 11, 13, 15, 20]},
-           {'15': [9, 10, 12, 13, 14, 16, 17, 18, 20]},
-           {'16': [8, 9, 12, 15,  17]},
-           {'17': [12, 15, 16,  18, 20]},
-           {'18': [15, 17,  19, 20]},
-           {'19': [18,  20]},
-           {'20': [14, 15, 17, 18, 19]}
+        this.listaNodosConVecinos = [
+            {'id': 1, 'vecinos': [2, 3]},
+            {'id': 2, 'vecinos': [1, 3, 4]},
+            {'id': 3, 'vecinos': [1, 2, 4, 5, 6]},
+            {'id': 4, 'vecinos': [2, 3, 5, 6, 8]},
+            {'id': 5, 'vecinos': [3, 4, 6, 7]},
+            {'id': 6, 'vecinos': [4, 5, 7, 8, 9]},
+            {'id': 7, 'vecinos': [5, 6, 9, 10, 11]},
+            {'id': 8, 'vecinos': [4, 6, 9, 12, 16]},
+            {'id': 9, 'vecinos': [6, 7, 8, 10, 12, 13, 15, 16]},
+            {'id': 10, 'vecinos': [7, 9, 11, 12, 13, 14, 15]},
+            {'id': 11, 'vecinos': [7, 10, 13, 14, 15]},
+            {'id': 12, 'vecinos': [8, 9, 10, 13, 15, 16, 17]},
+            {'id': 13, 'vecinos': [9, 10, 11, 12, 14, 15, 20]},
+            {'id': 14, 'vecinos': [10, 11, 13, 15, 20]},
+            {'id': 15, 'vecinos': [9, 10, 12, 13, 14, 16, 17, 18, 20,11]},
+            {'id': 16, 'vecinos': [8, 9, 12, 15, 17]},
+            {'id': 17, 'vecinos': [12, 15, 16, 18, 20]},
+            {'id': 18, 'vecinos': [15, 17, 19, 20]},
+            {'id': 19, 'vecinos': [18, 20]},
+            {'id': 20, 'vecinos': [14, 15, 17, 18, 19]}
         ]
         this.agregarVecinos();
     }
@@ -57,9 +57,16 @@ class Grafo {
 
     //Agregar vecinos a un municipio
     agregarVecinos(){
-        for(let i = 0; i < this.nodos.length; i++){
-            this.nodos[i].setVecinos(this.vecinos[i]);
-        }
+        this.listaNodosConVecinos.forEach((registro)=>{
+            const nodo = this.nodos.filter((nodo)=>nodo.getId()==registro.id)
+            let listaNodos =[]
+            registro.vecinos.forEach((idVecino)=>{
+                const vecino = this.nodos.filter((nodo)=>nodo.getId()==idVecino)
+                listaNodos.push(vecino[0])
+            })
+            nodo[0].setVecinos(listaNodos)
+            // console.log(nodo[0])
+        })
     }
     //medir distancia
     getDistance (origen, destino) {
@@ -68,7 +75,6 @@ class Grafo {
         Math.sin(origen.getLatitud() * (Math.PI/180)) * Math.sin(destino.getLatitud() * (Math. PI/180)) + 
         Math.cos(origen.getLatitud() * (Math.PI/180)) * Math.cos(destino.getLatitud() * (Math.PI/180)) * Math.cos(theta * (Math.PI/180)));
         // console.log(distance * 1.609344, 2 + ' Km');
-
         return distance*1.609344;
     }
 }
