@@ -6,8 +6,6 @@ class Modelo {
     }
     //Algoritmo A*
     busquedaAStar(origen, destino){
-        console.log(origen)
-        console.log(destino)
         const munOrigen = this.getMunicipioPorNombre(origen)
         const munDestino = this.getMunicipioPorNombre(destino)
 
@@ -59,28 +57,105 @@ class Modelo {
             munActual=vecinoMasCercano;
         }
         rutaCorta.push(munDestino)
-        console.log(distanciaAcumulada)
+        console.log('Distancia AStar'+distanciaAcumulada)
         return rutaCorta
     }
 
-    nodoPesoMenor(nodo){
-        let vecinos = nodo.getVecinos();
-        let distancia = Infinity
-        let nodoSeleccionado = null
-        vecinos.forEach((vecino)=>{
-            let distanciaEntreNodos = this.grafo.getDistance(nodo,vecino)
-            if(distanciaEntreNodos<distancia){
-                distancia=distanciaEntreNodos
-                nodoSeleccionado=vecino
-            }
-        })
-        nodoSeleccionado
+      // Esta función nos retorna el nodo con menor peso al que podemos acceder.
+  nodoPesoMenor(pesos, procesados) {
+    return Object.keys(pesos).reduce((menor, nodo) => {
+      if (menor === null || pesos[nodo] < pesos[menor]) {
+        if (!procesados.includes(nodo)) {
+          menor = nodo;
+        }
+      }
+      return menor;
+    }, null);
+  };
+
+
+  log(mensaje) {
+    const imprime = false;
+
+    if (imprime) {
+      console.log(mensaje);
+    }
+  }
+  //Algoritmo Dijkstra
+  busquedaDijkstra(origen, destino) {
+    const munOrigen = this.getMunicipioPorNombre(origen)
+    const munDestino = this.getMunicipioPorNombre(destino)
+
+    let pesos = {}
+    pesos[munDestino.getNombre()] = "Infinity"
+    munOrigen.getVecinos().forEach((vecino) => {
+      pesos[vecino.getNombre()] = this.grafo.getDistance(munOrigen, vecino)
+    })
+
+    // Siguiendo los caminos / rutas al visitar cada nodo.
+    const nodosPadre = {
+      nodoFinal: null
     };
 
-    //Algoritmo Dijkstra
-    busquedaDijkstra(origen, destino) {
-        return "dijkstra"
+    for (let nodoHijo of munOrigen.getVecinos()) {
+      nodosPadre[nodoHijo.getNombre()] = munOrigen.getNombre();
     }
+
+    // Almacenando a los nodos que ya han sido procesados.
+    const procesados = [];
+
+    let nodo = this.nodoPesoMenor(pesos, procesados);
+
+    while (nodo) {
+      let peso = pesos[this.getMunicipioPorNombre(nodo).getNombre()];
+      let nodosHijo = this.getMunicipioPorNombre(nodo).getVecinos();
+      //console.log(nodosHijo)
+
+      for (let n of nodosHijo) {
+        if (String(n.getNombre()) === String(munOrigen.getNombre())) {
+          this.log("¡No podemos regresar al inicio!");
+        } else {
+          this.log("Nombre del nodo inicial: " + munOrigen.getNombre());
+          this.log("Evaluando el peso hasta el nodo " + n.getNombre() + " (buscando desde el nodo " + this.getMunicipioPorNombre(nodo).getNombre() + ")");
+          this.log("Último peso: " + pesos[n.getNombre()]);
+
+          let nuevoPeso = peso + this.grafo.getDistance(this.getMunicipioPorNombre(nodo), n);
+
+          this.log("Nuevo peso: " + nuevoPeso);
+
+          if (!pesos[n.getNombre()] || pesos[n.getNombre()] > nuevoPeso) {
+            pesos[n.getNombre()] = nuevoPeso;
+            nodosPadre[n.getNombre()] = this.getMunicipioPorNombre(nodo).getNombre();;
+
+            this.log("Nodos padre y pesos actualizados.");
+          } else {
+            this.log("Ya existe una mejor ruta.");
+          }
+        }
+      }
+
+      procesados.push(this.getMunicipioPorNombre(nodo).getNombre());
+      nodo = this.nodoPesoMenor(pesos, procesados);
+    }
+    let rutaOptima = [munDestino.getNombre()];
+    let nodoPadre = nodosPadre[munDestino.getNombre()];
+
+    while (nodoPadre) {
+      rutaOptima.push(nodoPadre);
+      nodoPadre = nodosPadre[nodoPadre];
+    }
+
+    rutaOptima.reverse();
+
+    const resultados = {
+      distancia: pesos[munDestino.getNombre()],
+      ruta: rutaOptima
+    };
+
+    console.log(resultados)
+
+    return resultados;
+  }
 
     getTodosMunicipios(){
         return this.grafo.getNodos();
@@ -88,7 +163,7 @@ class Modelo {
 
     getTodosMunicipiosSinSeleccionado(){
         const municipiosFiltrados = this.grafo.getNodos().filter(municipio => this.munDestino != municipio.getId() && this.munOrigen!=municipio.getId());
-        return municipiosFiltrados
+        return municipiosFiltrados;
     }
 
     buscarMunicipios(iniciales){
@@ -97,13 +172,12 @@ class Modelo {
         console.log(municipiosFiltrados)
         return municipiosFiltrados;
     }
-
     getMunicipioPorId(id){
         let municipioBuscado = null
         this.grafo.getNodos().forEach((municipio)=>{
             if((id+"") == (municipio.getId()+"")){
                 municipioBuscado = municipio;
-                return
+                return;
             }
         })
         return municipioBuscado;
@@ -119,7 +193,6 @@ class Modelo {
         })
         return municipioBuscado;
     }
-
     setMunOrigen(municipio,input){
         if(input=='origen'){
             this.munOrigen=municipio.getId();
@@ -127,8 +200,5 @@ class Modelo {
         else if(input=='destino'){
             this.munDestino=municipio.getId();
         }
-
     }
-
-
 }

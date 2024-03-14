@@ -11,6 +11,8 @@ const inputDestino = document.querySelector('.inputDestino')
 const main = document.querySelector('main')
 
 const btnCalcular = document.querySelector('.btnCalcular')
+const btnMostrarDijkstra = document.querySelector('.btnMostrarDijkstra')
+const btnMostrarAStar = document.querySelector('.btnMostrarAStar')
 
 let isActiveOrigen=false
 let isActiveDestino=false
@@ -109,11 +111,21 @@ btnCalcular.addEventListener('click',(event)=>{
     if(inputOrigen.value.length >=3 && inputDestino.value.length>=3){
         let munOrigen = inputOrigen.value
         let munDestino = inputDestino.value
-        // controller.busquedaAStar(munOrigen,munDestino)
+        controller.busquedaAStar(munOrigen,munDestino)
         controller.busquedaDijkstra(munOrigen,munDestino)
+        btnMostrarAStar.style.display = 'block'
+        btnMostrarDijkstra.style.display = 'block'
     }
     else{
         alert("Debe seleccionar dos municipios")
     }
 })
+btnMostrarAStar.addEventListener('click',(event)=>{
+    controller.pintarRuta('AStar')
+})
+btnMostrarDijkstra.addEventListener('click',(event)=>{
+    controller.pintarRuta('Dijkstra')
+})
+
+controller.mostrarMarcadores()
 

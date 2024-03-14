@@ -9,20 +9,20 @@ class Grafo {
             {'id': 4, 'vecinos': [2, 3, 5, 6, 8]},
             {'id': 5, 'vecinos': [3, 4, 6, 7]},
             {'id': 6, 'vecinos': [4, 5, 7, 8, 9]},
-            {'id': 7, 'vecinos': [5, 6, 9, 10, 11]},
+            {'id': 7, 'vecinos': [5, 6, 9, 10]},
             {'id': 8, 'vecinos': [4, 6, 9, 12, 16]},
-            {'id': 9, 'vecinos': [6, 7, 8, 10, 12, 13, 15, 16]},
-            {'id': 10, 'vecinos': [7, 9, 11, 12, 13, 14, 15]},
-            {'id': 11, 'vecinos': [7, 10, 13, 14, 15]},
-            {'id': 12, 'vecinos': [8, 9, 10, 13, 15, 16, 17]},
-            {'id': 13, 'vecinos': [9, 10, 11, 12, 14, 15, 20]},
-            {'id': 14, 'vecinos': [10, 11, 13, 15, 20]},
-            {'id': 15, 'vecinos': [9, 10, 12, 13, 14, 16, 17, 18, 20,11]},
-            {'id': 16, 'vecinos': [8, 9, 12, 15, 17]},
-            {'id': 17, 'vecinos': [12, 15, 16, 18, 20]},
-            {'id': 18, 'vecinos': [15, 17, 19, 20]},
+            {'id': 9, 'vecinos': [6, 7, 8, 10, 12]},
+            {'id': 10, 'vecinos': [7, 9, 11, 13, 14]},
+            {'id': 11, 'vecinos': [10, 15]},
+            {'id': 12, 'vecinos': [8, 9, 13, 14, 16, 17, 20]},
+            {'id': 13, 'vecinos': [10, 12, 15, 20]},
+            {'id': 14, 'vecinos': [10, 12]},
+            {'id': 15, 'vecinos': [13, 20, 11]},
+            {'id': 16, 'vecinos': [8, 12, 17]},
+            {'id': 17, 'vecinos': [12, 16, 18, 20]},
+            {'id': 18, 'vecinos': [17, 19, 20]},
             {'id': 19, 'vecinos': [18, 20]},
-            {'id': 20, 'vecinos': [14, 15, 17, 18, 19]}
+            {'id': 20, 'vecinos': [12, 15, 17, 18, 19]}
         ]
         this.agregarVecinos();
     }
@@ -70,6 +70,9 @@ class Grafo {
     }
     //medir distancia
     getDistance (origen, destino) {
+
+        if(origen==destino) return 0;
+
         let theta = origen.getLongitud() - destino.getLongitud();
         let distance = 60 * 1.1515 * (180/Math.PI) * Math.acos(
         Math.sin(origen.getLatitud() * (Math.PI/180)) * Math.sin(destino.getLatitud() * (Math. PI/180)) + 
