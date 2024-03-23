@@ -90,9 +90,41 @@ class Vista {
               `
       })
     }
+
+    async agregarLineasArbolKruskal(listaNodos){
+      let color = '#0000FF'
+  
+      // if (this.caminoRutaCorta) {
+      //     this.caminoRutaCorta.setMap(null)
+      // }
+  
+      
+      listaNodos.forEach((nodo) => {
+        let path = []
+        path.push({
+          lat: nodo.nodoA.getLatitud(),
+          lng: nodo.nodoA.getLongitud()
+        })
+
+        path.push({
+          lat: nodo.nodoB.getLatitud(),
+          lng: nodo.nodoB.getLongitud()
+        })
+
+        const flightPath = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: color,
+          strokeOpacity: 1.0,
+          strokeWeight: 4,
+        });
+        flightPath.setMap(this.mapa)
+
+      })
+      // this.caminoRutaCorta = flightPath;
+    }
   
     async agregarLineasRutaCorta(listaNodos, algoritmo) {
-        console.log(this.lineasRutaCorta)
     
         let color = undefined
         if (algoritmo == 'A*') {
@@ -120,7 +152,8 @@ class Vista {
             strokeOpacity: 1.0,
             strokeWeight: 4,
         });
-        flightPath.setMap(this.mapa);
+        flightPath.setMap(null);
+        flightPath.setMap(this.mapa)
         this.caminoRutaCorta = flightPath;
     }
   
@@ -141,14 +174,13 @@ class Vista {
                     });
                     flightPath.setMap(this.mapa);
                     nodoVisitado.push(nodo);
-                    // this.listaPaths.push(flightPath)
+                    this.listaPaths.push(flightPath)
                 }
             })
         })
     }
   
     async agregarMarcadores(listaNodos) {
-      // console.log(this.marcadores)
       for (let i = 0; i < this.marcadores.length; i++) {
         this.marcadores[i].setMap(null);
       }

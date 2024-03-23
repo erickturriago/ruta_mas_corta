@@ -62,100 +62,184 @@ class Modelo {
     }
 
       // Esta función nos retorna el nodo con menor peso al que podemos acceder.
-  nodoPesoMenor(pesos, procesados) {
-    return Object.keys(pesos).reduce((menor, nodo) => {
-      if (menor === null || pesos[nodo] < pesos[menor]) {
-        if (!procesados.includes(nodo)) {
-          menor = nodo;
-        }
-      }
-      return menor;
-    }, null);
-  };
-
-
-  log(mensaje) {
-    const imprime = false;
-
-    if (imprime) {
-      console.log(mensaje);
-    }
-  }
-  //Algoritmo Dijkstra
-  busquedaDijkstra(origen, destino) {
-    const munOrigen = this.getMunicipioPorNombre(origen)
-    const munDestino = this.getMunicipioPorNombre(destino)
-
-    let pesos = {}
-    pesos[munDestino.getNombre()] = "Infinity"
-    munOrigen.getVecinos().forEach((vecino) => {
-      pesos[vecino.getNombre()] = this.grafo.getDistance(munOrigen, vecino)
-    })
-
-    // Siguiendo los caminos / rutas al visitar cada nodo.
-    const nodosPadre = {
-      nodoFinal: null
-    };
-
-    for (let nodoHijo of munOrigen.getVecinos()) {
-      nodosPadre[nodoHijo.getNombre()] = munOrigen.getNombre();
-    }
-
-    // Almacenando a los nodos que ya han sido procesados.
-    const procesados = [];
-
-    let nodo = this.nodoPesoMenor(pesos, procesados);
-
-    while (nodo) {
-      let peso = pesos[this.getMunicipioPorNombre(nodo).getNombre()];
-      let nodosHijo = this.getMunicipioPorNombre(nodo).getVecinos();
-      //console.log(nodosHijo)
-
-      for (let n of nodosHijo) {
-        if (String(n.getNombre()) === String(munOrigen.getNombre())) {
-          this.log("¡No podemos regresar al inicio!");
-        } else {
-          this.log("Nombre del nodo inicial: " + munOrigen.getNombre());
-          this.log("Evaluando el peso hasta el nodo " + n.getNombre() + " (buscando desde el nodo " + this.getMunicipioPorNombre(nodo).getNombre() + ")");
-          this.log("Último peso: " + pesos[n.getNombre()]);
-
-          let nuevoPeso = peso + this.grafo.getDistance(this.getMunicipioPorNombre(nodo), n);
-
-          this.log("Nuevo peso: " + nuevoPeso);
-
-          if (!pesos[n.getNombre()] || pesos[n.getNombre()] > nuevoPeso) {
-            pesos[n.getNombre()] = nuevoPeso;
-            nodosPadre[n.getNombre()] = this.getMunicipioPorNombre(nodo).getNombre();;
-
-            this.log("Nodos padre y pesos actualizados.");
-          } else {
-            this.log("Ya existe una mejor ruta.");
+    nodoPesoMenor(pesos, procesados) {
+      return Object.keys(pesos).reduce((menor, nodo) => {
+        if (menor === null || pesos[nodo] < pesos[menor]) {
+          if (!procesados.includes(nodo)) {
+            menor = nodo;
           }
         }
-      }
-
-      procesados.push(this.getMunicipioPorNombre(nodo).getNombre());
-      nodo = this.nodoPesoMenor(pesos, procesados);
-    }
-    let rutaOptima = [munDestino.getNombre()];
-    let nodoPadre = nodosPadre[munDestino.getNombre()];
-
-    while (nodoPadre) {
-      rutaOptima.push(nodoPadre);
-      nodoPadre = nodosPadre[nodoPadre];
-    }
-
-    rutaOptima.reverse();
-
-    const resultados = {
-      distancia: pesos[munDestino.getNombre()],
-      ruta: rutaOptima
+        return menor;
+      }, null);
     };
 
-    console.log(resultados)
 
-    return resultados;
-  }
+    log(mensaje) {
+      const imprime = false;
+
+      if (imprime) {
+        console.log(mensaje);
+      }
+    }
+    //Algoritmo Dijkstra
+    busquedaDijkstra(origen, destino) {
+      const munOrigen = this.getMunicipioPorNombre(origen)
+      const munDestino = this.getMunicipioPorNombre(destino)
+
+      let pesos = {}
+      pesos[munDestino.getNombre()] = "Infinity"
+      munOrigen.getVecinos().forEach((vecino) => {
+        pesos[vecino.getNombre()] = this.grafo.getDistance(munOrigen, vecino)
+      })
+
+      // Siguiendo los caminos / rutas al visitar cada nodo.
+      const nodosPadre = {
+        nodoFinal: null
+      };
+
+      for (let nodoHijo of munOrigen.getVecinos()) {
+        nodosPadre[nodoHijo.getNombre()] = munOrigen.getNombre();
+      }
+
+      // Almacenando a los nodos que ya han sido procesados.
+      const procesados = [];
+
+      let nodo = this.nodoPesoMenor(pesos, procesados);
+
+      while (nodo) {
+        let peso = pesos[this.getMunicipioPorNombre(nodo).getNombre()];
+        let nodosHijo = this.getMunicipioPorNombre(nodo).getVecinos();
+        //console.log(nodosHijo)
+
+        for (let n of nodosHijo) {
+          if (String(n.getNombre()) === String(munOrigen.getNombre())) {
+            this.log("¡No podemos regresar al inicio!");
+          } else {
+            this.log("Nombre del nodo inicial: " + munOrigen.getNombre());
+            this.log("Evaluando el peso hasta el nodo " + n.getNombre() + " (buscando desde el nodo " + this.getMunicipioPorNombre(nodo).getNombre() + ")");
+            this.log("Último peso: " + pesos[n.getNombre()]);
+
+            let nuevoPeso = peso + this.grafo.getDistance(this.getMunicipioPorNombre(nodo), n);
+
+            this.log("Nuevo peso: " + nuevoPeso);
+
+            if (!pesos[n.getNombre()] || pesos[n.getNombre()] > nuevoPeso) {
+              pesos[n.getNombre()] = nuevoPeso;
+              nodosPadre[n.getNombre()] = this.getMunicipioPorNombre(nodo).getNombre();;
+
+              this.log("Nodos padre y pesos actualizados.");
+            } else {
+              this.log("Ya existe una mejor ruta.");
+            }
+          }
+        }
+
+        procesados.push(this.getMunicipioPorNombre(nodo).getNombre());
+        nodo = this.nodoPesoMenor(pesos, procesados);
+      }
+      let rutaOptima = [munDestino.getNombre()];
+      let nodoPadre = nodosPadre[munDestino.getNombre()];
+
+      while (nodoPadre) {
+        rutaOptima.push(nodoPadre);
+        nodoPadre = nodosPadre[nodoPadre];
+      }
+
+      rutaOptima.reverse();
+
+      const resultados = {
+        distancia: pesos[munDestino.getNombre()],
+        ruta: rutaOptima
+      };
+
+      console.log(resultados)
+
+      return resultados;
+    }
+
+    busquedaKruskal(){
+      let aristas = []
+      let nodosVisitados = []
+      let aristasElegidas = []
+      let arbol = {}
+
+      //Crear arreglo de aristas
+      for(let i=0;i<this.grafo.getNodos().length;i++){
+        console.log(i)
+        let nodo = this.grafo.getNodos()[i]
+        if(!nodosVisitados.includes(nodo)){
+          for(let j=0;j<nodo.getVecinos().length;j++){
+            let obj = {}
+            let vecino = nodo.getVecinos()[j];
+            let distancia = this.grafo.getDistance(nodo,vecino)
+            obj['distancia']=distancia;
+            obj['aristas'] = [{origen:nodo.getNombre(),destino:vecino.getNombre()},{origen:vecino.getNombre(),destino:nodo.getNombre()}]
+            obj['nodoA'] = this.getMunicipioPorNombre(nodo.getNombre())
+            obj['nodoB'] = this.getMunicipioPorNombre(vecino.getNombre())
+            aristas.push(obj)
+          }
+        }
+        nodosVisitados.push(nodo)
+      }
+
+      //Ordenar del arreglo
+      let n = aristas.length
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            if (aristas[j].distancia > aristas[j + 1].distancia) {
+                // Intercambiar elementos si están en el orden incorrecto
+                const temp = aristas[j];
+                aristas[j] = aristas[j + 1];
+                aristas[j + 1] = temp;
+            }
+        }
+      }
+      // console.log(aristas)
+
+      //Crear arbol, cargar nodos sin vecinos
+      this.grafo.getNodos().forEach((nodo)=>{
+        arbol[nodo.getNombre()]=[]
+      })
+
+      //Seleccionar aristas
+      for(let i=0;i<aristas.length;i++){
+        // console.log(munSeleccionados)
+        let aristaActual = aristas[i]
+        let origenActual = aristaActual.aristas[0].origen
+        let destinoActual = aristaActual.aristas[0].destino
+
+        console.log(`Arista de: ${origenActual} ${destinoActual}`)
+
+        let esBucle = false
+        let visitados = []
+        let cola = [origenActual]
+
+        while(cola.length>0){
+          // console.log(cola)
+          let elemento = cola.pop()
+          visitados.push(elemento)
+          if(elemento==destinoActual){
+            esBucle=true
+            break
+          }
+          arbol[elemento].forEach((nodo)=>{
+            if(!visitados.includes(nodo)){
+              cola.push(nodo)
+            }
+          })
+        }
+
+        if(!esBucle){
+          aristasElegidas.push(aristaActual)
+          arbol[origenActual].push(destinoActual)
+          arbol[destinoActual].push(origenActual)
+        }
+        console.log(arbol)
+      }
+
+      // console.log(aristasElegidas)
+      return aristasElegidas;
+    }
 
     getTodosMunicipios(){
         return this.grafo.getNodos();

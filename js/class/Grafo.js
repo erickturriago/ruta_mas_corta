@@ -20,9 +20,9 @@ class Grafo {
             {'id': 15, 'vecinos': [13, 20, 11]},
             {'id': 16, 'vecinos': [8, 12, 17]},
             {'id': 17, 'vecinos': [12, 16, 18, 20]},
-            {'id': 18, 'vecinos': [17, 19, 20]},
+            {'id': 18, 'vecinos': [17, 19]},
             {'id': 19, 'vecinos': [18, 20]},
-            {'id': 20, 'vecinos': [12, 15, 17, 18, 19]}
+            {'id': 20, 'vecinos': [12, 15, 17, 19]}
         ]
         this.agregarVecinos();
     }

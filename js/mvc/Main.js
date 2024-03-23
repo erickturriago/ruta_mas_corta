@@ -14,6 +14,12 @@ const btnCalcular = document.querySelector('.btnCalcular')
 const btnMostrarDijkstra = document.querySelector('.btnMostrarDijkstra')
 const btnMostrarAStar = document.querySelector('.btnMostrarAStar')
 
+const sectionRutaMasCorta = document.querySelector('.ruta-mas-corta')
+const sectionArbolRecubridor = document.querySelector('.arbol-recubridor')
+
+const btnRutaCorta = document.querySelector('.btnRutaCorta')
+const btnArbolRecubridor = document.querySelector('.btnArbolRecubridor')
+
 let isActiveOrigen=false
 let isActiveDestino=false
 
@@ -127,5 +133,14 @@ btnMostrarDijkstra.addEventListener('click',(event)=>{
     controller.pintarRuta('Dijkstra')
 })
 
-controller.mostrarMarcadores()
 
+btnRutaCorta.addEventListener('click',(event)=>{
+    sectionRutaMasCorta.style.display='flex'
+    sectionArbolRecubridor.style.display='none'
+})
+btnArbolRecubridor.addEventListener('click',(event)=>{
+    sectionArbolRecubridor.style.display='flex'
+    sectionRutaMasCorta.style.display='none'
+})
+
+controller.mostrarMarcadores()

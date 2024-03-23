@@ -12,38 +12,59 @@
 </head>
 <body>
     <main>
-        <section class="formularios">
-            <h2 class="titulo">RUTA MAS CORTA</h2>
-            <div class="origen">
-                <!-- <label for="">Origen</label> -->
-                <input type="text" class="inputOrigen" placeholder="Municipio Origen">
-                <i class="fa-solid fa-arrow-down desplegarMun"></i>
+        <section class="sectionOpciones">
+            <div class="botonesControl">
+                <h2>APP MUNICIPIOS</h2>
+                <button class="btnRutaCorta">Ruta mas corta</button>
+                <button class="btnArbolRecubridor">Arbol Recubridor</button>
             </div>
-            <div class="destino">
-                <!-- <label for="">Destino</label> -->
-                <input type="text"  class="inputDestino" placeholder="Municipio Destino">
-                <i class="fa-solid fa-arrow-down desplegarMun"></i>
-            </div>
-            <div class="botones">
-                <button class="btnCalcular">CALCULAR</button>
-            </div>
-            <div class="resultados">
-                <div class="resultadoDijkstra">
-                    <h3>Ruta más corta Dijkstra</h3>
-                    <div class="nodosDijkstra listaNodos">
+            <section class="ruta-mas-corta">
+                <h2 class="titulo">RUTA MAS CORTA</h2>
+                <div class="origen">
+                    <!-- <label for="">Origen</label> -->
+                    <input type="text" class="inputOrigen" placeholder="Municipio Origen">
+                    <i class="fa-solid fa-arrow-down desplegarMun"></i>
+                </div>
+                <div class="destino">
+                    <!-- <label for="">Destino</label> -->
+                    <input type="text"  class="inputDestino" placeholder="Municipio Destino">
+                    <i class="fa-solid fa-arrow-down desplegarMun"></i>
+                </div>
+                <div class="botones">
+                    <button class="btnCalcular">CALCULAR</button>
+                </div>
+                <div class="resultados">
+                    <div class="resultadoDijkstra">
+                        <h3>Ruta más corta Dijkstra</h3>
+                        <div class="nodosDijkstra listaNodos">
+                            
+                        </div>
+                        <button class="btnMostrarDijkstra">Mostrar Camino</button>
                         
                     </div>
-                    <button class="btnMostrarDijkstra">Mostrar Camino</button>
-                    
-                </div>
-                <div class="resultadoA*">
-                    <h3>Ruta más corta A*</h3>
-                    <div class="nodosAStar listaNodos">
+                    <div class="resultadoA*">
+                        <h3>Ruta más corta A*</h3>
+                        <div class="nodosAStar listaNodos">
+                        </div>
+                        <button class="btnMostrarAStar">Mostrar Camino</button>
                     </div>
-                    <button class="btnMostrarAStar">Mostrar Camino</button>
                 </div>
-            </div>
+            </section>
+
+            <section class="arbol-recubridor">
+                <h2 class="titulo">ARBOL RECUBRIDOR</h2>
+                <div class="resultados">
+                    <div class="resultadoKruskal">
+                        <h3>Kruskal</h3>
+                        <div class="aristasKruskal listaNodos">
+                            
+                        </div>
+                        <button class="btnMostrarArbolKruskal">Mostrar Arbol</button>
+                    </div>
+                </div>
+            </section>
         </section>
+        
         <section class="mapa" id="map">
         </section>
     </main>

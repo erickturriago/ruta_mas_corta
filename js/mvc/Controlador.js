@@ -5,6 +5,7 @@ class Controlador {
         this.vista = vista;
         this.rutaCortaDijkstra = undefined;
         this.rutaCortaAStar = undefined;
+        this.arbolKruskal = undefined
     }
 
     cargarMunicipios(iniciales,input){
@@ -29,6 +30,8 @@ class Controlador {
         let listaNodos = this.modelo.getTodosMunicipios()
         await this.vista.agregarMarcadores(listaNodos)
         await this.vista.pintarTodasLineas(listaNodos)
+        this.busquedaKruskal();
+        // this.pintarRuta('Kruskal')
     }
 
     busquedaAStar(origen,destino){
@@ -54,13 +57,22 @@ class Controlador {
         this.vista.mostrarNodosDijkstra(rutaCortaDijkstra);
         // this.pintarTodasLineas(rutaCortaDijkstra);
         // this.vista.agregarLineasRutaCorta(rutaCortaDijkstra, 'Dijkstra')
-      }
+    }
 
-    pintarRuta(algortimo){
-        if (algortimo === 'AStar'){
+    busquedaKruskal(){
+        const listaAristas = this.modelo.busquedaKruskal()
+        console.log(listaAristas)
+        this.arbolKruskal=listaAristas;
+        this.vista.agregarLineasArbolKruskal(this.arbolKruskal)
+    }
+
+    pintarRuta(algoritmo){
+        if (algoritmo == 'AStar'){
             this.vista.agregarLineasRutaCorta(this.rutaCortaAStar, 'A*');
-        } else {
+        } else if(algoritmo=='Dijkstra') {
             this.vista.agregarLineasRutaCorta(this.rutaCortaDijkstra, 'Dijkstra');
+        } else if(algoritmo=='Kruskal'){
+            this.vista.agregarLineasRutaCorta(this.arbolKruskal, 'Dijkstra');
         }
     }
 

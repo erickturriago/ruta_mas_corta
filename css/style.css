@@ -33,6 +33,7 @@ header nav span{
 body main{
     display: flex;
     height: 100%;
+    /* flex-direction: column; */
     /* align-items: center; */
     /* justify-content: center; */
 }
@@ -58,7 +59,7 @@ body main .mapa{
 }
 
 
-.formularios > div{
+.ruta-mas-corta > div{
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -66,14 +67,6 @@ body main .mapa{
     justify-self: center;
 }
 
-
-.formularios .botones{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
-
- 
 main section div{
     position: relative;
     
@@ -98,29 +91,16 @@ main section div{
 }
 
 
-
-
-/* .listaMunicipiosDestino{
-    position: absolute;
-    top: 40px;
-    right: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, .5);
-
-    display: flex;
-    flex-direction: column;
-} */
-
 .destino .listaOcultaDestino{
     display: none;
 }
 
-.formularios div div{
+.ruta-mas-corta div div{
     border-radius: 5px;
     
 }
 
-.formularios div input{
+.ruta-mas-corta div input{
     all: unset;
     width: 98%;
     height: 40px;
@@ -129,7 +109,7 @@ main section div{
     padding-left: 5px;
     font-size: 20px;
 }
-.formularios div div li{
+.ruta-mas-corta div div li{
     height: 35px;
     list-style: none;
     /* border-radius: 10px; */
@@ -141,72 +121,72 @@ main section div{
     background-color: rgba(0, 0, 0, .9);
 }
 
-.formularios div div li:hover{
+.ruta-mas-corta div div li:hover{
     background-color: rgba(0, 0, 0, 0.8);
     /* border: 1px solid white; */
 }
 
-.resultados h3{
+.ruta-mas-corta h3{
     text-transform: uppercase;
     font-size: 20px;
 }
 
 
-.formularios h2{
+.ruta-mas-corta h2{
     font-size: 30px;
 }
 
 /* CSS */
-.botones button, .resultados button{
-  appearance: button;
-  backface-visibility: hidden;
-  background-color: #405cf5;
-  border-radius: 6px;
-  border-width: 0;
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
-  font-size: 100%;
-  height: 44px;
-  line-height: 1.15;
-  margin: 12px 0 0;
-  outline: none;
-  overflow: hidden;
-  padding: 0 25px;
-  position: relative;
-  text-align: center;
-  text-transform: none;
-  transform: translateZ(0);
-  transition: all .2s,box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 100%;
+button{
+    appearance: button;
+    backface-visibility: hidden;
+    background-color: #405cf5;
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+    font-size: 100%;
+    height: 44px;
+    line-height: 1.15;
+    margin: 12px 0 0;
+    outline: none;
+    overflow: hidden;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
 }
 
-.botones button:disabled {
-  cursor: default;
+button:disabled {
+    cursor: default;    
 }
 
-.botones button:focus {
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+button:focus {
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
 }
 
-.resultados{
+.sectionOpciones section{
     /* margin-top: 70px; */
     /* height: 30%; */
-    gap: 80px;
+    gap: 30px;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 
 .resultados > div{
     display: flex;
     flex-direction: column;
-
     gap: 20px;
 }
 
@@ -238,7 +218,7 @@ main section div{
     width: 23px;
     height: 2px;
     background-color: #405cf5;
-  }
+}
 
 
 .desplegarMun{
@@ -261,4 +241,37 @@ main section div{
 .btnMostrarAStar, .btnMostrarDijkstra{
     display: none;
     
+}
+
+
+.resultadoKruskal{
+    align-items: center;
+}
+
+
+body main .ruta-mas-corta,body main .arbol-recubridor{
+    display: none;
+}
+
+
+.sectionOpciones{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* padding: 100px 50px 0px 50px; */
+    padding-top: 50px;
+    min-width: 20%;
+    gap: 100px;
+}
+
+.botonesControl{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px 0px 20px;
+    /* gap:20px; */
+}
+
+.botonesControl h2{
+    text-align: center;
+    margin-bottom: 20px;
 }
