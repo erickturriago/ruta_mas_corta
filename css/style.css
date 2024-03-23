@@ -238,7 +238,7 @@ button:focus {
     color: white;
 }
 
-.btnMostrarAStar, .btnMostrarDijkstra{
+.btnMostrarAStar, .btnMostrarDijkstra, .btnMostrarBellmanFord{
     display: none;
     
 }

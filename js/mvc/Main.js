@@ -119,6 +119,7 @@ btnCalcular.addEventListener('click',(event)=>{
         let munDestino = inputDestino.value
         controller.busquedaAStar(munOrigen,munDestino)
         controller.busquedaDijkstra(munOrigen,munDestino)
+        controller.busquedaBellmanFord(munOrigen, munDestino)
         btnMostrarAStar.style.display = 'block'
         btnMostrarDijkstra.style.display = 'block'
     }

@@ -36,15 +36,6 @@ class Modelo {
                         distanciaVecinoADestino = this.grafo.getDistance(municipioVecino,munDestino)
                     }
                     const distancia = distanciaAcumulada + distanciaEntreNodos + distanciaVecinoADestino
-
-                    console.log('------------------------------------------------------')
-                    // console.log("Mun seleccionados "+JSON.stringify(rutaCorta))
-                    console.log("Distancia acumulada: "+distanciaAcumulada)
-                    console.log(`Distancia entre ${munActual.getNombre()} y ${municipioVecino.getNombre()} : ${distanciaEntreNodos}`)
-                    console.log(`Distancia entre ${municipioVecino.getNombre()} y ${munDestino.getNombre()}: ${distanciaVecinoADestino}`)
-                    console.log(`Distancia total: ${distancia}`)
-                    console.log('------------------------------------------------------')
-                    
                     // Actualizar la distancia mínima y el vecino más cercano si se encuentra una distancia menor
                     if (distancia < distanciaMinima) {
                         distanciaMinima = distancia;
@@ -61,7 +52,59 @@ class Modelo {
         return rutaCorta
     }
 
-      // Esta función nos retorna el nodo con menor peso al que podemos acceder.
+    // Algoritmo Bellman-Ford
+    busquedaBellmanFord(origen, destino) {
+      // Paso 1: Inicializar las distancias y predecesores
+      let distancias = {}
+      let predecesores = {}
+      for (let mun of this.grafo.getNodos()) {
+        distancias[mun.getNombre()] = Infinity
+        predecesores[mun.getNombre()] = null
+      }
+      distancias[origen] = 0;
+
+      // Paso 2 y 3: Relajación de las aristas (V-1) veces
+      for (let i = 0; i < this.grafo.getNodos().length - 1; i++) {
+        for (let mun of this.grafo.getNodos()) {
+          for (let vecino of mun.getVecinos()) {
+            let nuevaDistancia = distancias[mun.getNombre()] + this.grafo.getDistance(mun, vecino);
+            if (nuevaDistancia < distancias[vecino.getNombre()]) {
+              distancias[vecino.getNombre()] = nuevaDistancia;
+              predecesores[vecino.getNombre()] = mun.getNombre();
+            }
+          }
+        }
+      }
+      
+      // Paso 4: Detección de ciclos de peso negativo
+      for (let mun of this.grafo.getNodos()) {
+        for (let vecino of mun.getVecinos()) {
+          if (distancias[mun.getNombre()] + this.grafo.getDistance(mun, vecino) < distancias[vecino.getNombre()]) {
+            console.log("El grafo contiene un ciclo de peso negativo");
+            return;
+          }
+        }
+      }
+      const municipioDestino = this.getMunicipioPorNombre(destino) 
+      
+      let rutaCortaBellman = []
+      let camino = []
+      let actual = municipioDestino.getNombre()
+      
+      while (actual != null) {
+        camino.unshift(actual)
+        actual = predecesores[actual]
+      }
+      console.log("Distancias Bellman-Ford: ")
+      for (let i = 0; i < camino.length; i++) {
+        rutaCortaBellman.push(this.getMunicipioPorNombre(camino[i]))
+        console.log(rutaCortaBellman[i])
+      }
+      
+      return rutaCortaBellman
+    }
+
+    // Esta función nos retorna el nodo con menor peso al que podemos acceder.
     nodoPesoMenor(pesos, procesados) {
       return Object.keys(pesos).reduce((menor, nodo) => {
         if (menor === null || pesos[nodo] < pesos[menor]) {

@@ -5,6 +5,7 @@ class Controlador {
         this.vista = vista;
         this.rutaCortaDijkstra = undefined;
         this.rutaCortaAStar = undefined;
+        this.rutaCortaBellmanFord = undefined;
         this.arbolKruskal = undefined
     }
 
@@ -38,10 +39,6 @@ class Controlador {
         const nodosRutaCorta = this.modelo.busquedaAStar(origen,destino)
         this.rutaCortaAStar = nodosRutaCorta
         this.vista.mostrarNodosAStar(nodosRutaCorta)
-        //this.vista.agregarMarcadoresRutaCorta(nodosRutaCorta)
-        // this.pintarTodasLineas(nodosRutaCorta)
-        // this.vista.agregarLineasRutaCorta(nodosRutaCorta, 'A*')
-        
     }
     
     busquedaDijkstra(origen, destino) {
@@ -57,6 +54,11 @@ class Controlador {
         this.vista.mostrarNodosDijkstra(rutaCortaDijkstra);
         // this.pintarTodasLineas(rutaCortaDijkstra);
         // this.vista.agregarLineasRutaCorta(rutaCortaDijkstra, 'Dijkstra')
+    }
+
+    busquedaBellmanFord(origen, destino){
+        const distancias = this.modelo.busquedaBellmanFord(origen, destino)
+        this.vista.mostrarNodosBellmanFord(distancias)
     }
 
     busquedaKruskal(){

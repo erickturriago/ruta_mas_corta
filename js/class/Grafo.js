@@ -25,6 +25,7 @@ class Grafo {
             {'id': 20, 'vecinos': [12, 15, 17, 19]}
         ]
         this.agregarVecinos();
+        this.aristas = this.setAristas();
     }
 
     // Agregar un municipio al grafo
@@ -51,8 +52,27 @@ class Grafo {
         this.nodos.push(new Municipio(20, 'Pucaron', 0.87723, -71.01769));
     }
 
+    setAristas() {
+        let aristas = [];
+        this.nodos.forEach((nodo) => {
+            nodo.getVecinos().forEach((vecino) => {
+                let distancia = this.getDistance(nodo, vecino);
+                aristas.push({ origen: nodo, destino: vecino, distancia: distancia });
+            });
+        });
+        console.log('Aristas: ' + aristas.origen + ', ' + aristas.destino + ', ' + aristas.distancia)
+        return aristas;
+    }
+
+    getAristas() {
+        return this.aristas;
+    }
     getNodos(){
         return this.nodos;
+    }
+
+    getId(){
+        return this.id;
     }
 
     //Agregar vecinos a un municipio
@@ -68,6 +88,7 @@ class Grafo {
             // console.log(nodo[0])
         })
     }
+
     //medir distancia
     getDistance (origen, destino) {
 

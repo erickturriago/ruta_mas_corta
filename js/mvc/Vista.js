@@ -9,6 +9,7 @@ class Vista {
       this.divListaDestino = document.createElement('div')
       this.nodosAStar = document.querySelector('.nodosAStar')
       this.nodoDijkstra = document.querySelector('.nodosDijkstra')
+      this.nodosBellmanFord = document.querySelector('.nodosBellmanFord')
       this.mapa;
     //   this.initMap()
       this.marcadores = []
@@ -80,15 +81,25 @@ class Vista {
               `
       })
     }
-  
+    
     mostrarNodosDijkstra(nodos) {
       this.nodoDijkstra.innerHTML = ``;
       nodos.forEach((nodo) => {
         console.log("pintando")
         this.nodoDijkstra.innerHTML += `
-                  <span class="nodo">${nodo.getNombre().split('').slice(0, 3).join('')}</span>
-              `
+        <span class="nodo">${nodo.getNombre().split('').slice(0, 3).join('')}</span>
+        `
       })
+    }
+    
+    mostrarNodosBellmanFord(nodos) {
+      // this.nodosBellmanFord.innerHTML = ``;
+      // nodos.forEach((nodo) => {
+      //   console.log("pintando")
+      //   this.nodosAStar.innerHTML += `
+      //             <span class="nodo">${nodo.getNombre().split('').slice(0, 3).join('')}</span>
+      //         `
+      // })
     }
 
     async agregarLineasArbolKruskal(listaNodos){
