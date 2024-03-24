@@ -71,6 +71,23 @@ class Vista {
         }
       }
     }
+
+    limpiarMapa(){
+      if (this.caminoRutaCorta) {
+        this.caminoRutaCorta.setMap(null)
+      }
+      if(this.listaPaths.length>0){
+        this.listaPaths.forEach((path)=>{
+          path.setMap(null)
+        })
+      }
+    }
+
+    limpiarNodos(){
+      this.nodoDijkstra.innerHTML = ''
+      this.nodosAStar.innerHTML = ''
+      this.nodosBellmanFord.innerHTML = ''
+    }
   
     mostrarNodosAStar(nodos) {
       this.nodosAStar.innerHTML = ``;
@@ -93,23 +110,20 @@ class Vista {
     }
     
     mostrarNodosBellmanFord(nodos) {
-      // this.nodosBellmanFord.innerHTML = ``;
-      // nodos.forEach((nodo) => {
-      //   console.log("pintando")
-      //   this.nodosAStar.innerHTML += `
-      //             <span class="nodo">${nodo.getNombre().split('').slice(0, 3).join('')}</span>
-      //         `
-      // })
+      this.nodosBellmanFord.innerHTML = ``;
+      nodos.forEach((nodo) => {
+        console.log("pintando")
+        this.nodosBellmanFord.innerHTML += `
+                  <span class="nodo">${nodo.getNombre().split('').slice(0, 3).join('')}</span>
+              `
+      })
     }
 
     async agregarLineasArbolKruskal(listaNodos){
-      let color = '#0000FF'
-  
-      // if (this.caminoRutaCorta) {
-      //     this.caminoRutaCorta.setMap(null)
-      // }
-  
-      
+      let color = '#FFFF00';
+
+      this.limpiarMapa()
+
       listaNodos.forEach((nodo) => {
         let path = []
         path.push({
@@ -130,24 +144,24 @@ class Vista {
           strokeWeight: 4,
         });
         flightPath.setMap(this.mapa)
-
+        this.listaPaths.push(flightPath)
       })
-      // this.caminoRutaCorta = flightPath;
     }
   
     async agregarLineasRutaCorta(listaNodos, algoritmo) {
     
         let color = undefined
         if (algoritmo == 'A*') {
-            color = "#FF0000";
+          color = "#FF0000";
         }
-        else {
-            color = "#FFFFFF"
+        else if(algoritmo == 'Bellman'){
+          color = "#FFFF00"
+        }
+        else{
+          color = "#FFFFFF"
         }
     
-        if (this.caminoRutaCorta) {
-            this.caminoRutaCorta.setMap(null)
-        }
+        this.limpiarMapa()
     
         let path = []
         listaNodos.forEach((nodo) => {
@@ -185,7 +199,6 @@ class Vista {
                     });
                     flightPath.setMap(this.mapa);
                     nodoVisitado.push(nodo);
-                    this.listaPaths.push(flightPath)
                 }
             })
         })

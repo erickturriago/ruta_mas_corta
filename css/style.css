@@ -65,6 +65,7 @@ body main .mapa{
     width: 80%;
     /* align-items: flex-start; */
     justify-self: center;
+    gap: 20px;
 }
 
 main section div{
@@ -192,19 +193,20 @@ button:focus {
 
 .listaNodos{
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
 .nodo{
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    /* width: 60px;
+    height: 60px; */
+    border-radius: 10px;
     /* background-color: red; */
     border: #405cf5 2px solid;
     position: relative;
     display: flex;
     align-items: center;
+    padding: 4px 10px 4px 10px;
     justify-content: center;
 }
 
@@ -213,9 +215,8 @@ button:focus {
     content: '';
     position: absolute;
     top: 50%;
-    right: -42%;
-    /* width: 100%; */
-    width: 23px;
+    right: -12px;
+    width: 12px;
     height: 2px;
     background-color: #405cf5;
 }
@@ -261,7 +262,7 @@ body main .ruta-mas-corta,body main .arbol-recubridor{
     /* padding: 100px 50px 0px 50px; */
     padding-top: 50px;
     min-width: 20%;
-    gap: 100px;
+    gap: 50px;
 }
 
 .botonesControl{

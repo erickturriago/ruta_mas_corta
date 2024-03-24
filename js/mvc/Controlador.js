@@ -31,7 +31,7 @@ class Controlador {
         let listaNodos = this.modelo.getTodosMunicipios()
         await this.vista.agregarMarcadores(listaNodos)
         await this.vista.pintarTodasLineas(listaNodos)
-        this.busquedaKruskal();
+        // this.busquedaKruskal();
         // this.pintarRuta('Kruskal')
     }
 
@@ -57,8 +57,9 @@ class Controlador {
     }
 
     busquedaBellmanFord(origen, destino){
-        const distancias = this.modelo.busquedaBellmanFord(origen, destino)
-        this.vista.mostrarNodosBellmanFord(distancias)
+        const nodosRutaCorta = this.modelo.busquedaBellmanFord(origen, destino)
+        this.rutaCortaBellmanFord = nodosRutaCorta;
+        this.vista.mostrarNodosBellmanFord(nodosRutaCorta)
     }
 
     busquedaKruskal(){
@@ -73,8 +74,8 @@ class Controlador {
             this.vista.agregarLineasRutaCorta(this.rutaCortaAStar, 'A*');
         } else if(algoritmo=='Dijkstra') {
             this.vista.agregarLineasRutaCorta(this.rutaCortaDijkstra, 'Dijkstra');
-        } else if(algoritmo=='Kruskal'){
-            this.vista.agregarLineasRutaCorta(this.arbolKruskal, 'Dijkstra');
+        } else if(algoritmo=='Bellman'){
+            this.vista.agregarLineasRutaCorta(this.rutaCortaBellmanFord, 'Bellman');
         }
     }
 

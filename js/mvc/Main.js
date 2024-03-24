@@ -13,16 +13,14 @@ const main = document.querySelector('main')
 const btnCalcular = document.querySelector('.btnCalcular')
 const btnMostrarDijkstra = document.querySelector('.btnMostrarDijkstra')
 const btnMostrarAStar = document.querySelector('.btnMostrarAStar')
+const btnMostrarBellmanFord = document.querySelector('.btnMostrarBellmanFord')
+const btnMostrarArbolKruskal = document.querySelector('.btnMostrarArbolKruskal')
 
 const sectionRutaMasCorta = document.querySelector('.ruta-mas-corta')
 const sectionArbolRecubridor = document.querySelector('.arbol-recubridor')
 
 const btnRutaCorta = document.querySelector('.btnRutaCorta')
 const btnArbolRecubridor = document.querySelector('.btnArbolRecubridor')
-
-let isActiveOrigen=false
-let isActiveDestino=false
-
 
 const desplegarMun = document.querySelectorAll('.desplegarMun');
 
@@ -122,6 +120,7 @@ btnCalcular.addEventListener('click',(event)=>{
         controller.busquedaBellmanFord(munOrigen, munDestino)
         btnMostrarAStar.style.display = 'block'
         btnMostrarDijkstra.style.display = 'block'
+        btnMostrarBellmanFord.style.display = 'block'
     }
     else{
         alert("Debe seleccionar dos municipios")
@@ -133,11 +132,23 @@ btnMostrarAStar.addEventListener('click',(event)=>{
 btnMostrarDijkstra.addEventListener('click',(event)=>{
     controller.pintarRuta('Dijkstra')
 })
-
+btnMostrarBellmanFord.addEventListener('click',(event)=>{
+    controller.pintarRuta('Bellman')
+})
+btnMostrarArbolKruskal.addEventListener('click',(event)=>{
+    controller.busquedaKruskal();
+})
 
 btnRutaCorta.addEventListener('click',(event)=>{
     sectionRutaMasCorta.style.display='flex'
     sectionArbolRecubridor.style.display='none'
+
+    btnMostrarAStar.style.display = 'none'
+    btnMostrarDijkstra.style.display = 'none'
+    btnMostrarBellmanFord.style.display = 'none'
+    inputOrigen.value = ""
+    inputDestino.value = ""
+    vista.limpiarNodos()
 })
 btnArbolRecubridor.addEventListener('click',(event)=>{
     sectionArbolRecubridor.style.display='flex'
